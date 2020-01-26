@@ -1,13 +1,6 @@
-do-test: test libunrandom.so
-	LD_PRELOAD=$$(pwd)/libunrandom.so ./test
-.PHONY: do-test
+default: libunrandom.so
 
-clean:
-	rm test libunrandom.so
-.PHONY: clean
+%.so: %.c
+	$(CC) -shared -fPIC -ldl -o $@ $<
 
-libunrandom.so: unrandom.c
-	gcc -shared -fPIC -ldl -o $@ $<
-
-test: test.c
-	gcc -o $@ $<
+test: test.o
